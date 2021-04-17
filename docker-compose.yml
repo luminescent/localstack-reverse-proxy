@@ -1,0 +1,49 @@
+version: "2.1"
+
+services:
+  localstack:
+    container_name: localstack
+    hostname: localstack
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+      - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+    environment:
+      - SERVICES=${SERVICES- }
+      - DEBUG=${DEBUG- }
+      - DATA_DIR=${DATA_DIR- }
+      - PORT_WEB_UI=${PORT_WEB_UI- }
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
+      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOST_TMP_FOLDER=${TMPDIR}
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    extra_hosts:
+      - "sts.amazonaws.com:10.5.0.3"
+    networks:
+      lntk:
+        ipv4_address: 10.5.0.2
+  reverse:
+    container_name: reverse
+    hostname: reverse
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /home/christina/work/localstack-reverse-proxy/nginx/conf.d:/etc/nginx/conf.d
+      - /home/christina/work/localstack-reverse-proxy/nginx/ssl:/etc/nginx/certs
+    networks:
+      lntk:
+        ipv4_address: 10.5.0.3
+
+networks:
+  lntk:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
