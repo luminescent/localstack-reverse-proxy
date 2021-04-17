@@ -12,6 +12,11 @@ Use this command:
 ```
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
 ```
+Then copy then into the ssl folder:
+```
+cp /etc/ssl/private/nginx-selfsigned.key ./nginx/ssl
+cp /etc/ssl/certs/nginx-selfsigned.crt ./nginx/ssl
+```
 
 Make sure to put `10.5.0.3` as `Common Name` when prompted. 
 
