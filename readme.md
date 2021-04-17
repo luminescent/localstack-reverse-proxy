@@ -1,7 +1,7 @@
 This project redirects amazon endpoints, hardcoded into libraries such as `boto3`, to `localstack`.
 
 
-This has implemented as follows: a docker compose file with 2 services. One is localstack, the other is nginx. Calls made to Amazon services are directed to the nginx container, which in turn redirects them to localstack. This allows running lambdas that should connect to Amazon endpoints fully in localstack. 
+This has implemented as follows: a docker compose file with 2 services. One is localstack, the other is nginx. Calls made to Amazon services are directed to the nginx container, which in turn redirects them to localstack. This allows running lambdas that should connect to Amazon endpoints fully in localstack. A network with static IPs is generated, to allow adding the AWS endpoints into the `hosts` file. 
 
 
 You will need to generate certificates for nginx and place in the ssl folder. 
