@@ -22,8 +22,6 @@ services:
     volumes:
       - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
-    # extra_hosts:
-    #   - "sts.amazonaws.com:10.5.0.3"
     networks:
       lntk:
         ipv4_address: 10.5.0.2
