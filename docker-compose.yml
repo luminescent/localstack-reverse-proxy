@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   localstack:
-    container_name: localstack
+    container_name: localstack_main
     hostname: localstack
     image: localstack/localstack
     ports:
@@ -18,11 +18,12 @@ services:
       - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
+      - LAMBDA_DOCKER_NETWORK=localstackreverseproxy_lntk
     volumes:
       - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
-    extra_hosts:
-      - "sts.amazonaws.com:10.5.0.3"
+    # extra_hosts:
+    #   - "sts.amazonaws.com:10.5.0.3"
     networks:
       lntk:
         ipv4_address: 10.5.0.2
@@ -39,6 +40,8 @@ services:
     networks:
       lntk:
         ipv4_address: 10.5.0.3
+        aliases:
+          - sts.amazonaws.com
 
 networks:
   lntk:
