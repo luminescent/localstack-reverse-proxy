@@ -1,9 +1,9 @@
 version: "2.1"
 
 services:
-  localstack:
+  localstack_main:
     container_name: localstack_main
-    hostname: localstack
+    hostname: localstack_main
     image: localstack/localstack
     ports:
       - "4566:4566"
@@ -19,15 +19,16 @@ services:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
       - LAMBDA_DOCKER_NETWORK=localstackreverseproxy_lntk
+      - PYTHONHTTPSVERIFY=0
     volumes:
       - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       lntk:
         ipv4_address: 10.5.0.2
-  reverse:
-    container_name: reverse
-    hostname: reverse
+  sts.amazonaws.com:
+    container_name: sts.amazonaws.com
+    hostname: sts.amazonaws.com
     image: nginx
     ports:
       - 80:80
@@ -38,8 +39,6 @@ services:
     networks:
       lntk:
         ipv4_address: 10.5.0.3
-        aliases:
-          - sts.amazonaws.com
 
 networks:
   lntk:
