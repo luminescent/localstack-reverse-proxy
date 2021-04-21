@@ -50,19 +50,22 @@ You will need to add a network alias for the `reverse` service in the `docker-co
 
 # Troubleshooting
 
-## My lambda container says network `localstackreverseproxy_lntk` does not exist. 
+### My lambda container says network `localstackreverseproxy_lntk` does not exist. 
 
 That usually means that the folder where your compose file is isn't called `localstack-reverse-proxy`. By default, docker-compose will create a network which is name as `FolderNameWithoutSpecialChars_MyNetworkNameFromCompose`. Our network is called `ntlk`, but Docker creates is as `localstackreverseproxy_lntk`. You will need to change `localstack_main`'s environment variable, from the compose file, to the value that matches your configuration: `LAMBDA_DOCKER_NETWORK=yourfoldername_lntk` 
 
-## Running the lambda gives me SSL validation failed 
+### Running the lambda gives me SSL validation failed 
 
 A few things. Make sure that you have included the CA root cert in your lambda, and that the AWS_CA_BUNDLE environment variable is set correctly. Redo step 4. 
 Make sure your endpoint has been added as an alias, and also that the certificate signing request has covered your alias. 
 
-## Invalid token when connecting to an AWS service 
+### Invalid token when connecting to an AWS service 
 
-This means your endpoint is not configured. You will need to follow the steps from How do I add an extra service.    
+This means the Amazon AWS endpoint you are connecting to is not configured. You will need to follow the steps from How do I add an extra service.    
 
+### How do I find out which Amazon endpoint is `boto3` using under the hood?
+
+Disable your network access and invoke your lambda again. It will tell you the URL it's trying to hit, and you can then add it to the list of supported services as per the guide. 
 
 
 
