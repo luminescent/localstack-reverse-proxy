@@ -39,7 +39,7 @@ services:
     networks:
       lntk:
         aliases:
-          - sns.amazonaws.com
+          - sts.amazonaws.com
           - s3.amazonaws.com
         ipv4_address: 10.5.0.3
 
