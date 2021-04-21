@@ -1,6 +1,17 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]
+then
+  echo "Usage: Must supply a domain"
+  exit 1
+fi
+
 cd ./nginx/ssl
+
+DOMAIN=$1
+echo $DOMAIN
+FILE_NAME="${DOMAIN/\*/subdomains}"
+echo $FILE_NAME
 
 openssl genrsa -des3 -out myCA.key 2048
 
@@ -8,21 +19,10 @@ openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
 
 openssl x509 -in myCA.pem -inform PEM -out myCA.crt
 
+openssl genrsa -out $FILE_NAME.key 2048
+openssl req -new -key $FILE_NAME.key -out $FILE_NAME.csr
 
-if [ "$#" -ne 1 ]
-then
-  echo "Usage: Must supply a domain"
-  exit 1
-fi
-
-DOMAIN=$1
-
-
-
-openssl genrsa -out $DOMAIN.key 2048
-openssl req -new -key $DOMAIN.key -out $DOMAIN.csr
-
-cat > $DOMAIN.ext << EOF
+cat > $FILE_NAME.ext << EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
@@ -31,5 +31,5 @@ subjectAltName = @alt_names
 DNS.1 = $DOMAIN
 EOF
 
-openssl x509 -req -in $DOMAIN.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial \
--out $DOMAIN.crt -days 825 -sha256 -extfile $DOMAIN.ext
+openssl x509 -req -in $FILE_NAME.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial \
+-out $FILE_NAME.crt -days 825 -sha256 -extfile $FILE_NAME.ext
