@@ -52,7 +52,7 @@ You will need to add a network alias for the `reverse` service in the `docker-co
 
 ### My lambda container says network `localstackreverseproxy_lntk` does not exist. 
 
-That usually means that the folder where your compose file is isn't called `localstack-reverse-proxy`. By default, docker-compose will create a network which is name as `FolderNameWithoutSpecialChars_MyNetworkNameFromCompose`. Our network is called `ntlk`, but Docker creates is as `localstackreverseproxy_lntk`. You will need to change `localstack_main`'s environment variable, from the compose file, to the value that matches your configuration: `LAMBDA_DOCKER_NETWORK=yourfoldername_lntk` 
+That usually means that the folder where your compose file is isn't called `localstack-reverse-proxy`. By default, docker-compose will create a network which is named as `FolderNameWithoutSpecialChars_MyNetworkNameFromCompose`. Our network is called `ntlk`, but Docker creates is as `localstackreverseproxy_lntk`. You will need to change `localstack_main`'s environment variable, from the compose file, to the value that matches your configuration: `LAMBDA_DOCKER_NETWORK=yourfoldername_lntk` 
 
 ### Running the lambda gives me SSL validation failed 
 
