@@ -41,6 +41,7 @@ services:
         aliases:
           - sts.amazonaws.com
           - s3.amazonaws.com
+          - dynamodb.us-east-1.amazonaws.com
         ipv4_address: 10.5.0.3
 
 networks:

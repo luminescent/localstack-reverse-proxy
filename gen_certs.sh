@@ -1,16 +1,8 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]
-then
-  echo "Usage: Must supply a domain"
-  exit 1
-fi
-
 cd ./nginx/ssl
 
-DOMAIN=$1
-echo $DOMAIN
-FILE_NAME="${DOMAIN/\*/subdomains}"
+FILE_NAME="subdomains.amazonaws.com"
 echo $FILE_NAME
 
 openssl genrsa -des3 -out myCA.key 2048
@@ -28,7 +20,8 @@ basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
 [alt_names]
-DNS.1 = $DOMAIN
+DNS.1 = *.amazonaws.com
+DNS.2 = *.us-east-1.amazonaws.com
 EOF
 
 openssl x509 -req -in $FILE_NAME.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial \
