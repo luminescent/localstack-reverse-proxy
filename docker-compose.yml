@@ -26,9 +26,9 @@ services:
     networks:
       lntk:
         ipv4_address: 10.5.0.2
-  sts.amazonaws.com:
-    container_name: sts.amazonaws.com
-    hostname: sts.amazonaws.com
+  reverse:
+    container_name: reverse
+    hostname: reverse
     image: nginx
     ports:
       - 80:80
@@ -38,6 +38,9 @@ services:
       - /home/christina/work/localstack-reverse-proxy/nginx/ssl:/etc/nginx/certs
     networks:
       lntk:
+        aliases:
+          - sns.amazonaws.com
+          - s3.amazonaws.com
         ipv4_address: 10.5.0.3
 
 networks:
