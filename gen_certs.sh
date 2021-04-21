@@ -1,9 +1,9 @@
 #!/bin/bash
 
+mkdir -p ./nginx/ssl
 cd ./nginx/ssl
 
 FILE_NAME="subdomains.amazonaws.com"
-echo $FILE_NAME
 
 openssl genrsa -des3 -out myCA.key 2048
 
