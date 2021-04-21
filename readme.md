@@ -42,7 +42,7 @@ You will need to enter a passphrase every time you are prompted for it. You will
 
 ## How do I run this? 
 
-If the first run steps were performed, do `docker-compose up`
+If the first run steps were performed, only ever do `docker-compose up`.
 
 ## How do I add an extra service?
 
