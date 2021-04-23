@@ -7,4 +7,5 @@
 lambda/dist/*/
 lambda/dist/distutils-precedence.pth
 six.py
+venv
 
