@@ -19,7 +19,7 @@ services:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
       - LAMBDA_DOCKER_NETWORK=localstackreverseproxy_lntk
-      - PYTHONHTTPSVERIFY=0
+      - AWS_CA_BUNDLE=/var/task/myCA.pem
     volumes:
       - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -29,9 +29,6 @@ services:
     container_name: reverse
     hostname: reverse
     image: nginx
-    ports:
-      - 80:80
-      - 443:443
     volumes:
       - /home/christina/work/localstack-reverse-proxy/nginx/conf.d:/etc/nginx/conf.d
       - /home/christina/work/localstack-reverse-proxy/nginx/ssl:/etc/nginx/certs
@@ -41,6 +38,7 @@ services:
           - sts.amazonaws.com
           - s3.amazonaws.com
           - dynamodb.us-east-1.amazonaws.com
+          - states.us-east-1.amazonaws.com
 
 networks:
   lntk:
