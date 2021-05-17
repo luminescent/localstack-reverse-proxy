@@ -14,7 +14,7 @@ services:
       - DEBUG=${DEBUG- }
       - DATA_DIR=${DATA_DIR- }
       - PORT_WEB_UI=${PORT_WEB_UI- }
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
+      - LAMBDA_EXECUTOR=docker
       - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
@@ -30,15 +30,18 @@ services:
     hostname: reverse
     image: nginx
     volumes:
-      - /home/christina/work/localstack-reverse-proxy/nginx/conf.d:/etc/nginx/conf.d
-      - /home/christina/work/localstack-reverse-proxy/nginx/ssl:/etc/nginx/certs
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/certs
     networks:
       lntk:
         aliases:
-          - sts.amazonaws.com
           - s3.amazonaws.com
+          - sts.amazonaws.com
           - dynamodb.us-east-1.amazonaws.com
+          - sns.us-east-1.amazonaws.com
+          - ssm.us-east-1.amazonaws.com
           - states.us-east-1.amazonaws.com
+          - mybucket.s3.amazonaws.com
 
 networks:
   lntk:

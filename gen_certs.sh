@@ -22,6 +22,7 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = *.amazonaws.com
 DNS.2 = *.us-east-1.amazonaws.com
+DNS.3 = *.s3.amazonaws.com
 EOF
 
 openssl x509 -req -in $FILE_NAME.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial \

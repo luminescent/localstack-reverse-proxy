@@ -46,7 +46,11 @@ If the first run steps were performed, only ever do `docker-compose up`.
 
 ## How do I add an extra service?
 
-You will need to add a network alias for the `reverse` service in the `docker-compose.yml` file. Keep in mind that the certificate allows the `*.amazonaws.com` and the `*.us-east-1.amazonaws.com` domains only. If your new endpoint doesn't match any of these, you will need to add your new domain to the certificate signing request in the `gen_certs.sh` file (in the `[alt_names]` section). After that repeat steps 1 to 4 in the First run section.
+You will need to add a network alias for the `reverse` service in the `docker-compose.yml` file. Keep in mind that the certificate allows the `*.amazonaws.com`, the `*.us-east-1.amazonaws.com`, and `*.s3.amazonaws.com` domains only. If your new endpoint doesn't match any of these, you will need to add your new domain to the certificate signing request in the `gen_certs.sh` file (in the `[alt_names]` section). After that repeat steps 1 to 4 in the First run section.
+
+## What happens with s3 buckets which have their own endpoints?
+
+You need to add any new bucket dns to the reverse's service aliases in the `docker-compose.yml` file. See the example for `mybucket`. Also have a look at nginx's `default.conf` to see how buckets calls are proxied. `boot3` makes requests to `https://mybuket.s3.amazonaws.com`, while `localstack` expects call to be made to `https://localstack_hostname:4566/mybucket`
 
 # Troubleshooting
 
@@ -65,7 +69,7 @@ This means the Amazon AWS endpoint you are connecting to is not configured. You 
 
 ### How do I find out which Amazon endpoint is `boto3` using under the hood?
 
-Disable your network access and invoke your lambda again. It will tell you the URL it's trying to hit, and you can then add it to the list of supported services as per the guide. 
+Disable your Internet access and invoke your lambda again. It will tell you the URL it's trying to hit, and you can then add it to the list of supported services as per the guide. 
 
 
 
