@@ -17,9 +17,10 @@ services:
       - LAMBDA_EXECUTOR=docker
       - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
       - DOCKER_HOST=unix:///var/run/docker.sock
-      - HOST_TMP_FOLDER=${TMPDIR}
+      - LAMBDA_REMOTE_DOCKER=false
+      - HOST_TMP_FOLDER=/tmp/localstack
+      - AWS_DEFAULT_REGION=us-east-1
       - LAMBDA_DOCKER_NETWORK=localstackreverseproxy_lntk
-      - AWS_CA_BUNDLE=/var/task/myCA.pem
     volumes:
       - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
